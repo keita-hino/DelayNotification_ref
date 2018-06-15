@@ -1,0 +1,11 @@
+記録側
+必要なクラス・メソッド
+・Weather
+  --get_direction
+  --get_stat
+  --get_weather
+・API < Http
+  --get_api
+  --post_api
+・Logger(そのまま使う)
+・DB(ActiveRecord)

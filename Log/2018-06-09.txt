@@ -1,0 +1,2 @@
+# Logfile created on 2018-06-09 11:35:57 +0900 by logger.rb/61378
+I, [2018-06-09T11:36:24.632416 #66196]  INFO -- : test
