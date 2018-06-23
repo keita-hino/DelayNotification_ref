@@ -9,9 +9,12 @@ class Post < ActiveRecord::Base #import.sqlのテーブル名postsを大文字�
   def insert_weather
 
   end
+  def get_select
+    Post.all
+  end
 end
 
 #p Post.all.select(:Wind_Avg)
-p Post.all
+# p Post.all
 
 #class DB >
