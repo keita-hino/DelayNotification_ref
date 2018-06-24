@@ -3,6 +3,7 @@ require 'uri'
 require 'json'
 require 'sqlite3'
 require 'date'
+require './notification'
 
 class Weather
   attr_accessor :city_name
@@ -13,7 +14,7 @@ class Weather
     weather_api_key = ENV['OPEN_WEATHER_APIKEY']
 
     #天気情報を市名で取得するパターン
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/find?q=#{@city_name},jp&units=metric&APPID=#{weather_api_key}")
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/find?q=#{city_name},jp&units=metric&APPID=#{weather_api_key}")
 
     #天気情報を緯度経度で取得するパターン
     #uri = URI.parse("http://api.openweathermap.org/data/2.5/find?lat=#{lat}&lon=#{lng}&cnt=1&APPID=#{weather_api_key}")
@@ -41,5 +42,29 @@ class Weather
     else
       return false
     end
+  end
+  def get_today_weather(eva_wind)
+    weather_api_key = ENV['OPEN_WEATHER_APIKEY']
+    result = []
+    delay_date = []
+    weather_hash = {}
+    count = 0
+
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/forecast?q=#{city_name},jp&units=metric&APPID=#{weather_api_key}")
+    json = Net::HTTP.get(uri)
+    result.push(JSON.parse(json))
+    # p result
+    result[0]['list'][0].each do |list|
+      weather_hash[result[0]['list'][count]['dt_txt']] = result[0]['list'][count]['wind']['speed']
+      count = count + 1
+    end
+     weather_hash.each do |key,value|
+      if eva_wind <= value then
+        delay_date.push(key.gsub(" ","."))
+      end
+    end
+    noti = Notifycation.new
+    noti.line_notify(delay_date)
+    
   end
 end

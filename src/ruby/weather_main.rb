@@ -7,7 +7,7 @@ require './weather'
 require './Log'
 
 system_log = Logger.new("../../Log/JRDelay_#{Date.today}.log")
-system_log.info("処理開始")
+system_log.info("天気記録開始")
 
 CITY_NAME = 'Ishinomaki'
 weather = Weather.new(CITY_NAME)
