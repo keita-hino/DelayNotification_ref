@@ -3,7 +3,11 @@ require 'uri'
 require 'json'
 
 class Api
-  def get(url)
+  attr_accessor :url
+  def initialize(url)
+    @url = url
+  end
+  def get_api
     uri = URI.parse(url)
 
     #天気情報を緯度経度で取得するパターン

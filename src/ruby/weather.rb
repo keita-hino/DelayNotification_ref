@@ -5,6 +5,7 @@ require 'sqlite3'
 require 'date'
 require './notification'
 require './api'
+require './Log'
 
 
 class Weather
@@ -12,17 +13,39 @@ class Weather
   def initialize(city_name)
     @city_name = city_name
   end
-  def get_weather
 
+  def insert_weather_log
+    url = "http://api.openweathermap.org/data/2.5/find?q=#{city_name},jp&units=metric&APPID=#{weather_key}"
+    api = Api.new(url)
 
-    #天気情報を市名で取得するパターン
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/find?q=#{city_name},jp&units=metric&APPID=#{weather_key}")
+    # #ルート設定
+    @root_json = api.get_api["list"][0]
 
-    #天気情報を緯度経度で取得するパターン
-    #uri = URI.parse("http://api.openweathermap.org/data/2.5/find?lat=#{lat}&lon=#{lng}&cnt=1&APPID=#{weather_api_key}")
+    log = Log.new(
+      CreateDate:Date.today,
+      City_Name:city_name,
+      Rain_Check:rain_check,
+      Snow_Check:snow_check,
+      Wind_Deg:wind_deg,
+      Wind_Speed:wind_speed
+    )
+     log.save
+  end
 
-    json = Net::HTTP.get(uri)
-    JSON.parse(json)
+  def wind_speed
+    @root_json["wind"]["speed"]
+  end
+
+  def wind_deg
+    get_direction(@root_json["wind"]["deg"])
+  end
+
+  def rain_check
+    get_stat(@root_json["rain"]).to_s
+  end
+
+  def snow_check
+    get_stat(@root_json["snow"]).to_s
   end
 
   def weather_key
