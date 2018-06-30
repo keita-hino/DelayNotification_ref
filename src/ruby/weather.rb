@@ -1,13 +1,8 @@
-require 'net/http'
-require 'uri'
-require 'json'
 require 'sqlite3'
 require 'date'
 require './notification'
 require './api'
 require './Log'
-require 'byebug' #デバッグ用
-
 
 class Weather
   attr_accessor :city_name
@@ -75,7 +70,6 @@ class Weather
   end
 
   def get_today_weather(eva_wind)
-    # weather_api_key = ENV['OPEN_WEATHER_APIKEY']
     delay_date = []
     weather_hash = {}
     count = 0

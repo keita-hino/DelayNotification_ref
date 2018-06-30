@@ -23,7 +23,6 @@ client.on('connect', function() {
     });
 });
 
-
 client.on("new", function(message) {
   var tmp = [];
 

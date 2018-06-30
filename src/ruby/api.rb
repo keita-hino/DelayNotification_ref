@@ -10,10 +10,25 @@ class Api
   def get_api
     uri = URI.parse(url)
 
-    #天気情報を緯度経度で取得するパターン
-    #uri = URI.parse("http://api.openweathermap.org/data/2.5/find?lat=#{lat}&lon=#{lng}&cnt=1&APPID=#{weather_api_key}")
-
     json = Net::HTTP.get(uri)
     JSON.parse(json)
+  end
+  def post(authorization,message)
+    require 'byebug';byebug
+
+    uri = URI.parse("https://notify-api.line.me/api/notify")
+    request = Net::HTTP::Post.new(uri)
+    request["Authorization"] = authorization
+    request.set_form_data(
+      "message" => message,
+    )
+
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
   end
 end
