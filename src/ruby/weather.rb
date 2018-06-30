@@ -4,6 +4,8 @@ require 'json'
 require 'sqlite3'
 require 'date'
 require './notification'
+require './api'
+
 
 class Weather
   attr_accessor :city_name
@@ -11,16 +13,20 @@ class Weather
     @city_name = city_name
   end
   def get_weather
-    weather_api_key = ENV['OPEN_WEATHER_APIKEY']
+
 
     #天気情報を市名で取得するパターン
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/find?q=#{city_name},jp&units=metric&APPID=#{weather_api_key}")
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/find?q=#{city_name},jp&units=metric&APPID=#{weather_key}")
 
     #天気情報を緯度経度で取得するパターン
     #uri = URI.parse("http://api.openweathermap.org/data/2.5/find?lat=#{lat}&lon=#{lng}&cnt=1&APPID=#{weather_api_key}")
 
     json = Net::HTTP.get(uri)
     JSON.parse(json)
+  end
+
+  def weather_key
+    weather_api_key = ENV['OPEN_WEATHER_APIKEY']
   end
 
   def get_direction(direction_no)
@@ -65,6 +71,6 @@ class Weather
     end
     noti = Notifycation.new
     noti.line_notify(delay_date)
-    
+
   end
 end
