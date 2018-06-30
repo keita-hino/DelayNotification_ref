@@ -6,6 +6,7 @@ require 'date'
 require './notification'
 require './api'
 require './Log'
+require 'byebug' #デバッグ用
 
 
 class Weather
@@ -72,28 +73,25 @@ class Weather
       return false
     end
   end
+
   def get_today_weather(eva_wind)
-    weather_api_key = ENV['OPEN_WEATHER_APIKEY']
-    result = []
+    # weather_api_key = ENV['OPEN_WEATHER_APIKEY']
     delay_date = []
     weather_hash = {}
     count = 0
+    url = "http://api.openweathermap.org/data/2.5/forecast?q=#{city_name},jp&units=metric&APPID=#{weather_key}"
+    api = Api.new(url)
 
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/forecast?q=#{city_name},jp&units=metric&APPID=#{weather_api_key}")
-    json = Net::HTTP.get(uri)
-    result.push(JSON.parse(json))
-    # p result
-    result[0]['list'][0].each do |list|
-      weather_hash[result[0]['list'][count]['dt_txt']] = result[0]['list'][count]['wind']['speed']
+    json = api.get_api['list']
+    json[0].each do |list|
+      if eva_wind <= json[count]['wind']['speed'] then
+        delay_date.push(json[count]['dt_txt'].gsub(" ","."))
+      end
       count = count + 1
     end
-     weather_hash.each do |key,value|
-      if eva_wind <= value then
-        delay_date.push(key.gsub(" ","."))
-      end
-    end
+
     noti = Notifycation.new
     noti.line_notify(delay_date)
-
   end
+
 end
