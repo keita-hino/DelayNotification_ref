@@ -13,9 +13,8 @@ class Api
     json = Net::HTTP.get(uri)
     JSON.parse(json)
   end
-  def post(authorization,message)
-    require 'byebug';byebug
 
+  def post(authorization,message)
     uri = URI.parse("https://notify-api.line.me/api/notify")
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = authorization
