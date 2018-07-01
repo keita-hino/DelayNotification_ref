@@ -1,8 +1,5 @@
 require 'logger'
 require 'date'
-require 'net/http'
-require 'uri'
-require 'json'
 require './weather'
 require './Log'
 

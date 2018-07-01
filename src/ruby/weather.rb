@@ -1,4 +1,3 @@
-require 'sqlite3'
 require 'date'
 require './notification'
 require './api'

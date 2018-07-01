@@ -28,7 +28,6 @@ class Notifycation
   end
 
   def get_buf(delay_date)
-    require 'byebug';byebug
     buf = []
     buf << "本日、下記の時間帯にJRが遅延する恐れがあります"
     delay_date.each do |msg|
