@@ -7,11 +7,16 @@ class Api
   def initialize(url)
     @url = url
   end
-  def get_api
+  def get
     uri = URI.parse(url)
 
-    json = Net::HTTP.get(uri)
-    JSON.parse(json)
+    begin
+      json = Net::HTTP.get(uri)
+      JSON.parse(json)
+    rescue
+      puts "オフラインです"
+      exit
+    end
   end
 
   def post(authorization,message)

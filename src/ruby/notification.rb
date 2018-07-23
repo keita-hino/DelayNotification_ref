@@ -3,12 +3,9 @@ require './api'
 class Notifycation
 
   def line_notify(delay_date)
-    url = "https://notify-api.line.me/api/notify"
     api = Api.new(url)
     authorization = "Bearer #{line_accsess_key}"
     api.post(authorization,message(delay_date))
-
-    return false
   end
 
   def line_accsess_key
@@ -33,6 +30,10 @@ class Notifycation
       buf << msg
     end
     buf
+  end
+
+  def url
+    url = "https://notify-api.line.me/api/notify"
   end
 
 end

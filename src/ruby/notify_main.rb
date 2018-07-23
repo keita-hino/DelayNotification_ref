@@ -3,6 +3,8 @@ require './Evaluation'
 require './Weather'
 require 'Date'
 
+time = Time.now
+
 system_log = Logger.new("../../Log/JRDelay_#{Date.today}.log")
 system_log.info("通知処理開始")
 
@@ -24,3 +26,5 @@ weather = Weather.new(
 
   system_log.info("通知処理終了")
   puts "#{Date.today}:通知処理完了"
+
+  puts "処理時間計測#{Time.now-time}"

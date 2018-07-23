@@ -14,8 +14,7 @@ class Weather
     api = Api.new(url)
 
     # #ルート設定
-    @root_json = api.get_api["list"][0]
-
+    @root_json = api.get["list"][0]
     log = Log.new(
       CreateDate:Date.today,
       City_Name:city_name,
@@ -75,7 +74,7 @@ class Weather
     url = "http://api.openweathermap.org/data/2.5/forecast?q=#{city_name},jp&units=metric&APPID=#{weather_key}"
     api = Api.new(url)
 
-    json = api.get_api['list']
+    json = api.get['list']
     json[0].each do |list|
       if eva_wind <= json[count]['wind']['speed'] then
         delay_date.push(json[count]['dt_txt'].gsub(" ","."))
