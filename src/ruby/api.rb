@@ -14,7 +14,7 @@ class Api
       json = Net::HTTP.get(uri)
       JSON.parse(json)
     rescue
-      puts "オフラインです"
+      puts "not connect"
       exit
     end
   end
